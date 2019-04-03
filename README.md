@@ -10,7 +10,7 @@ Functionalities -
 
 Project available on
 <a href="http://139.59.69.153:8000/">http://139.59.69.153:8000/</a>
-You can wither signup or use these credentials - 
+You can either signup or use these credentials - 
 username - bhavichawla
 password - bhavi.c16
 </pre>
