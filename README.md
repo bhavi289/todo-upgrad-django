@@ -1,3 +1,4 @@
+<pre>
 Functionalities - 
 1.) Add Tasks
 2.) Delete Tasks
@@ -9,3 +10,4 @@ Functionalities -
 
 Project available on
 <a href="http://139.59.69.153:8000/">http://139.59.69.153:8000/</a>
+</pre>
