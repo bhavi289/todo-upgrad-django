@@ -11,7 +11,7 @@ Functionalities -
 postgres database is hosted online so no need to change database settings even when running locally.
 
 Project can be seen on
-<a href="http://139.59.69.153:8000/">http://139.59.69.153:8000/</a>
+<a target="_blank" href="http://139.59.69.153:8000/">http://139.59.69.153:8000/</a>
 You can either signup or use these credentials - 
 username - bhavichawla
 password - bhavi.c16
