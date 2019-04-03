@@ -6,8 +6,11 @@ Functionalities -
 4.) View Upcoming Tasks
 4.) Mark Tasks as complete
 5.) View All taks (Completes and pending)
-6.) Reminder email 10 minutes before task time (based on server time).
+<b>6.) Reminder email 10 minutes before task time (based on server time). </b>
 
 Project available on
 <a href="http://139.59.69.153:8000/">http://139.59.69.153:8000/</a>
+You can wither signup or use these credentials - 
+username - bhavichawla
+password - bhavi.c16
 </pre>
