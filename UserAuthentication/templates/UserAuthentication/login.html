@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" >
+        <style>
+                .button {
+              background-color: #4CAF50; /* Green */
+              border: none;
+              color: white;
+              padding: 15px 32px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              cursor: pointer;
+            }
+            
+                .button2 {background-color: #008CBA;} /* Blue */
+            </style>
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'assets/css/style2.css' %}">
+</head>
+<body>
+    {% if save == 1 %}
+        <h1 style="text-align: center; color: #8af78a">ACCOUNT SUCCESSFULLY CREATED</h1>
+    {% elif save == 0 %}
+        <h1 style="text-align: center; color: #ff6d4c">WRONG USERNAME OR PASSWORD </h1>
+    {% endif %}
+<form action="{% url 'UserAuthentication:Login' %}" method="post">
+    {% csrf_token %}
+  <h2>LOGIN</h2>
+        <p>
+            <label for="Username" class="floatLabel">Username</label>
+            <input id="username" name="username" type="text" required>
+        </p>
+		<p>
+			<label for="Password" class="floatLabel">Password</label>
+			<input id="password" name="password" type="password" required>
+		</p>
+		<p>
+			<input type="submit" value="Submit" id="submit">
+		</p>
+    </form>
+    <center>
+            <button onclick="window.location.href='{% url 'UserAuthentication:SignUp' %}'" class="button button2">Not Registered Yet?</button>
+        </center>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <!-- <script  src="{% static 'assets/js/index2.js' %}"></script> -->
+</body>
+
+</html>

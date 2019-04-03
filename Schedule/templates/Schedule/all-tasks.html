@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>TodoApp - Django</title>
+  {% load static %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    // function getServerTime() {
+    //     $(".demo").html($.ajax({async: false}).getResponseHeader( 'Date' ));
+    // }
+    $(document).ready(function(){
+        $(".demo").html("Server time - " + $.ajax({async: false}).getResponseHeader( 'Date' ));
+
+        // var timer = setInterval(clock, 1)
+        // function clock(){
+        //     $(".demo").html(Date());
+
+        // }
+
+    });
+    </script>
+  <style>
+       
+        ul.navbar {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333;
+        }
+        
+        li.linav {
+          float: left;
+        }
+        
+        li.linav a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+        
+        li.linav a:hover {
+          background-color: #111;
+        }
+        .active {
+            background-color: #4CAF50;
+        }
+    </style>
+</head>
+
+<body>
+<ul class="navbar">
+    <li class="linav"><a href="{% url 'Schedule:Home' %}">Home </a></li>
+    <li class="linav"><a class="active"  href="">All Tasks</a></li>
+    <p class="demo"></p>
+    <!-- <li class="linav"><a href="#contact">Contact</a></li> -->
+    <li class="linav"><a href="{% url 'UserAuthentication:logout' %}">Logout </a></li>
+</ul>
+<div django-app="TaskManager">        
+    <div class="container">
+        <div class="content">
+            <p class="tagline">Completed Tasks</p>
+            <ul class="taskList">
+            {% for todo in completed_tasks %} 
+                <li class="taskItem">
+                    <!-- <input type="checkbox" class="taskCheckbox" name="checkedbox" id="{{ todo.id }}" value="{{ todo.id }}"> -->
+                    <label for="{{ todo.id }}"><span class="complete-">{{ todo.title }}</span></label>
+                    <span class="category-{{ todo.category }}">{{ todo.content }}</span>
+                    <strong class="taskDate"><i class="fa fa-calendar"></i>{{ todo.date }} - {{ todo.time }}</strong>
+                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#view-schedule-{{todo.id}}">View Task</button>
+                </li>
+                <div id="view-schedule-{{todo.id}}" class="modal" role="dialog" tabindex="-1" >
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">View Details</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!-- <form action="{% url 'Schedule:AddSchedule' %}" method="post"> -->
+                                <!-- {% csrf_token %} csrf token for basic security -->
+                                <input type="hidden" name="id_edit" value="{{todo.id}}">
+                                <div class="inputContainer">
+                                    <input type="text" value="{{todo.title}}" id="description" class="taskName" placeholder="What do you want us to remind you?" name="name_edit" readonly>
+                                    <label for="description">Task Name</label>
+                                </div>
+                                <div class="inputContainer">
+                                    <input type="text" value="{{todo.content}}" id="description" class="taskName" placeholder="What do you need to do?" name="description_edit" readonly>
+                                    <label for="description">Description</label>
+                                </div>
+                                <div class="inputContainer half last right">
+                                    <input type="date" value="{{todo.date|date:'Y-m-d'}}" id="dueDate" class="taskDate" name="date_edit" readonly>
+                                    <label for="dueDate">Date</label>
+                                </div>
+                                <div class="inputContainer half last right">
+                                    <input type="time" value="{{todo.time|time:'H:i'}}" id="dueDate" class="taskDate" name="time_edit" readonly>
+                                    <label for="dueDate">Time</label>
+                                </div>
+                                <!-- <div class="row">
+                                    <button class="taskAdd" name="taskEdit" type="submit"><i class="fa fa-plus icon"></i>Edit task</button>
+                                </div> -->
+                            <!-- </form> -->
+                            <p></p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </ul>
+            <p class="tagline">Remaining Tasks</p>
+            <form action="{% url 'Schedule:AddSchedule' %}" method="post">
+                {% csrf_token %} <!-- csrf token for basic security -->
+                <div class="row">
+                    <button class="taskDelete" name="taskDelete" formnovalidate="" type="submit" onclick="$('input#sublist').click();"><i class="fa fa-trash-o icon"></i>Delete Selected Tasks</button>
+                    <button class="taskAdd" name="taskComplete" formnovalidate="" type="submit" onclick="$('input#sublist').click();"><i class="fa fa-edit icon"></i>Complete Selected Tasks</button>
+                </div>
+                <ul class="taskList">
+                
+                {% for todo in remaining_tasks %} 
+                    <li class="taskItem">
+                        <input type="checkbox" class="taskCheckbox" name="checkedbox" id="{{ todo.id }}" value="{{ todo.id }}">
+                        <label for="{{ todo.id }}"><span class="complete-">{{ todo.title }}</span></label>
+                        <span class="category-{{ todo.category }}">{{ todo.content }}</span>
+                        <strong class="taskDate"><i class="fa fa-calendar"></i>{{ todo.date }} - {{ todo.time }}</strong>
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#edit-schedule-{{todo.id}}">Edit Task</button>
+                    </li>
+                    <div id="edit-schedule-{{todo.id}}" class="modal" role="dialog" tabindex="-1" >
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Edit Details</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'Schedule:AddSchedule' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id_edit" value="{{todo.id}}">
+                                    <div class="inputContainer">
+                                        <input type="text" value="{{todo.title}}" id="description" class="taskName" placeholder="What do you want us to remind you?" name="name_edit">
+                                        <label for="description">Task Name</label>
+                                    </div>
+                                    <div class="inputContainer">
+                                        <input type="text" value="{{todo.content}}" id="description" class="taskName" placeholder="What do you need to do?" name="description_edit">
+                                        <label for="description">Description</label>
+                                    </div>
+                                    <div class="inputContainer half last right">
+                                        <input type="date" value="{{todo.date|date:'Y-m-d'}}" id="dueDate" class="taskDate" name="date_edit">
+                                        <label for="dueDate">Date</label>
+                                    </div>
+                                    <div class="inputContainer half last right">
+                                        <input type="time" value="{{todo.time|time:'H:i'}}" id="dueDate" class="taskDate" name="time_edit">
+                                        <label for="dueDate">Time</label>
+                                    </div>
+                                    <div class="row">
+                                        <button class="taskAdd" name="allTaskEdit" type="submit"><i class="fa fa-plus icon"></i>Edit task</button>
+                                    </div>
+                                </form>
+                                <p></p>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
