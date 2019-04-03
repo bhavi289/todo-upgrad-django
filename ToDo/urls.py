@@ -22,6 +22,7 @@ from UserAuthentication.views import SignUp
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', SignUp),
     url(r'^user-authentication/', include('UserAuthentication.urls',namespace='user-authentication')),
     url(r'^schedule/', include('Schedule.urls',namespace='schedule')),
 

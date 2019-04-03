@@ -126,13 +126,17 @@
           box-sizing: border-box;
 }
 
+
+
+
+
 /* app */
 html {
   font-size: 100%;
 }
 
 body {
-  background: #b1f6cb;
+  background: #745abb;
   font-family: 'Open Sans',sans-serif;
 }
 /* super basic grid structure */
@@ -199,7 +203,7 @@ h1 {
   border-left: 1px solid #efefef;
 }
 
-input[type="date"], input[type="text"], select {
+input[type="date"], input[type="text"], input[type="time"], select {
   height: 100%;
   width: 100%;
   padding: 0 20px;

@@ -3,10 +3,12 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from datetime import datetime, timedelta
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required, permission_required
 
 from .models import Schedule
 # Create your views here.
 
+@login_required
 def Home(request):
     if request.method == "GET":
         save = None
@@ -22,6 +24,11 @@ def Home(request):
         # tasks = Schedule.objects.filter(Q(user=request.user) & Q(Q(date__gt = date_now) | Q(date=date_now, time__gte = time_now)))
         return render(request, 'Schedule/home.html', {"tasks":tasks, "save":save})
 
+
+'''
+    Function being used for all CRUD functionalities
+'''
+@login_required
 def AddSchedule(request):
     if request.method == "POST":
         try:
@@ -32,10 +39,7 @@ def AddSchedule(request):
                 time = request.POST.get('time')
                 if title=="" or content=="" or date=="" or time=="":
                     return HttpResponseRedirect(reverse("Schedule:Home")+"?save=0")
-                
-                
                 # dt = datetime.datetime.strptime(date+"  "+time, "%Y/%m/%d %H:%M")
-                
                 s = Schedule()
                 s.title = title
                 s.date = date
@@ -93,17 +97,19 @@ def AddSchedule(request):
             print (e)
             return HttpResponseRedirect(reverse("Schedule:Home")+"?save=0")
 
+@login_required
 def AllTasks(request):
     if request.method == "GET":
         # remain = Schedule.objects.filter(Q(user=request.user) & Q(Q(date__gt = date_now) | Q(date=date_now, time__gte = time_now)))
-        completed_tasks = Schedule.objects.filter(completed=True)
-        remaining_tasks = Schedule.objects.filter(completed=False)
+        completed_tasks = Schedule.objects.filter(completed=True, user=request.user)
+        remaining_tasks = Schedule.objects.filter(completed=False, user=request.user)
         return render(request, 'Schedule/all-tasks.html', {'completed_tasks':completed_tasks, 'remaining_tasks':remaining_tasks})
 
 
 ''' 
     Not Using these Functions Here
 '''
+@login_required
 def send_email(user, pwd, recipient, title):
     import smtplib
     from email.mime.application import MIMEApplication
@@ -138,9 +144,11 @@ def send_email(user, pwd, recipient, title):
         print (e)
         send_email(user, pwd, recipient, title)
 
+@login_required
 def reminder_mail(recipient, title):
    return send_email('csb.iiits@gmail.com', 'csb@iiits', recipient, title )
 
+@login_required
 def check_reminder(request):
     now = datetime.now()
 

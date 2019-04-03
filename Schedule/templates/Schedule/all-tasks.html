@@ -61,7 +61,7 @@
     <li class="linav"><a class="active"  href="">All Tasks</a></li>
     <p class="demo"></p>
     <!-- <li class="linav"><a href="#contact">Contact</a></li> -->
-    <li class="linav"><a href="{% url 'UserAuthentication:logout' %}">Logout </a></li>
+    <li class="linav"><a href="{% url 'UserAuthentication:logout' %}">Logout from {{request.user}}</a></li>
 </ul>
 <div django-app="TaskManager">        
     <div class="container">
