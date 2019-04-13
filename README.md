@@ -19,7 +19,7 @@ How to run
 postgres database is hosted online so no need to change database settings even when running locally.
 
 Project can be seen on
-<a href="http://139.59.69.153:8000/" target="_blank">http://139.59.69.153:8000/</a>
+<a href="http://142.93.211.20:8000/" target="_blank">http://139.59.69.153:8000/</a>
 You can either signup or use these credentials - 
 username - bhavichawla
 password - bhavi.c16
