@@ -7,7 +7,7 @@ celery==3.1.26.post2
 certifi==2018.8.24
 cffi==1.12.1
 chardet==3.0.4
-cryptography==2.5
+cryptography==3.2
 Django==1.11
 django-celery==3.2.2
 django-cors-headers==2.4.0
